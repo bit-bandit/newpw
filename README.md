@@ -15,7 +15,7 @@ Options:
 	    Output this help message.
 	-p, --printf STR (= %s\n)
 	    Format string when printing. See printf(1).
-        -s, --source FILE (= /dev/urandom)
+	-s, --source FILE (= /dev/urandom)
 	    Source file for random bytes. See cat(1).
 ```
 
