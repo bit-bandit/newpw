@@ -20,7 +20,7 @@ Options:
 	    Output this help message.
 	-p, --printf STR (= $format)
 	    Format string when printing. See printf(1).
-        -s, --source FILE (= $src)
+	-s, --source FILE (= $src)
 	    Source file for random bytes. See cat(1).
 EOF
 }
