@@ -49,7 +49,7 @@ for param in "$@"; do
 				continue
 			fi
 
-			printf "$0: length must only contain 0-9\n" >&2;
+			printf "%s" "$0: length must only contain 0-9\n" >&2;
 			exit 1
 			;;
 		(-p | --printf)
@@ -66,4 +66,6 @@ for param in "$@"; do
 	arg="$param"
 done
 
-printf "$format" "$(cat "$src" | tr -cd "$match" | head -c "$length")"
+# shellcheck disable=SC2059
+# yes i do want to use vars in printf format today, shellcheck
+printf "$format" "$(tr -cd "$match" < "$src" | head -c "$length")"
