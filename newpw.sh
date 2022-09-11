@@ -41,15 +41,16 @@ for param in "$@"; do
 		(-c | --length)
 			length="$param"
 
-			case "$length" in
-				([:digit:]+)
-					continue;
-					;;
-				(*)
-					printf "$0: length must only contain 0-9\n" >&2;
-					exit 1;
-					;;
-			esac
+			left="${length%%*[[:digit:]]}" # checks for crap left of number
+			right="${length##[[:digit:]]*}" # checks for crap right of number
+
+			# if there is no crap on either side, then we're good
+			if [ "$left" = "$right" ] && [ "$left" = "" ]; then
+				continue
+			fi
+
+			printf "$0: length must only contain 0-9\n" >&2;
+			exit 1
 			;;
 		(-p | --printf)
 			format="$param"
