@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#match='a-zA-Z0-9`~!@#$%^&*()[]{}/|\?+=\-_;:<>'"'"'",.'
 match='[:graph:]'
 length=16
 defsrc='/dev/urandom'
@@ -12,9 +11,9 @@ Generates a random password.
 
 Options:
 	-c, --length NUM (= $length)
-	    Length of output password. Must be positive. See head(1).
+	    Length of output password. Must be positive, and include only digits. See head(1).
 	-f, --format STR (= $match)
-	    Allowed characters. See tr(1).
+	    Character class of allowed characters in the password. See tr(1).
     	-h, --help
 	    Output this help message.
 EOF
@@ -41,14 +40,10 @@ for param in "$@"; do
 				exit 1
 			fi
 			;;
-		(*)
-			;;
 	esac
 
 	arg="$param"
 done
-
-
 
 # big hack so shell scripting can achieve what was previously considered impossible
 # no additional shell or os capabilities required! no third file descriptor!
@@ -64,7 +59,7 @@ stdin_or_file() {
 		exit
 	fi
 
-	# read and consume a character as octal
+	# consume and read a character as an octal byte
 	# no going back
 
 	# when a nul byte is read from fd 0, xargs complains about it..
@@ -78,8 +73,9 @@ stdin_or_file() {
 	if [ -z "$char" ]; then
 		cat "$1"
 	else # oops we got data
-		# its like it was never gone
-		printf "%s" "$(eval 'printf "'\\"$char"'"')"
+		# shellcheck disable=SC2059
+		# its like it was never gone (converts back to ascii)
+		printf "\\$char"
 
 		# catch closed fd 0 incase some smart-alec ran us with <&-
 		cat 2>/dev/null || cat "$1"
