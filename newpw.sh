@@ -3,7 +3,7 @@
 #match='a-zA-Z0-9`~!@#$%^&*()[]{}/|\?+=\-_;:<>'"'"'",.'
 match='[:graph:]'
 length=16
-src='/dev/urandom'
+defsrc='/dev/urandom'
 
 help() {
     cat <<EOF
@@ -17,8 +17,6 @@ Options:
 	    Allowed characters. See tr(1).
     	-h, --help
 	    Output this help message.
-	-s, --source FILE (= $src)
-	    Source file for random bytes. See cat(1).
 EOF
 }
 
@@ -43,14 +41,6 @@ for param in "$@"; do
 				exit 1
 			fi
 			;;
-		(-s | --source)
-			src="$param"
-
-			if ! [ -r "$param" ]; then
-				printf "%s\n" "$0: source file \`$param' is unreadable"
-				exit 1
-			fi
-			;;
 		(*)
 			;;
 	esac
@@ -58,5 +48,13 @@ for param in "$@"; do
 	arg="$param"
 done
 
-tr -cd "$match" < "$src" | head -c "$length"
+set --
+
+# todo: check for EOF in fd 0 and account for it by using /dev/urandom
+# likely abusing `0<filename command [args]`
+if [ -t 0 ]; then
+	set -- "$defsrc"
+fi
+
+cat "$@" | tr -cd "$match" | head -c "$length"
 printf "\n"
