@@ -8,15 +8,11 @@ Generates a random password.
 
 Options:
 	-c, --length NUM (= 16)
-	    Length of output password. Must be positive. See head(1).
+	    Length of output password. Must be positive, and include only digits. See head(1).
 	-f, --format STR (= [:graph:])
-	    Allowed characters. See tr(1).
+	    Character class of allowed characters in the password. See tr(1).
     	-h, --help
 	    Output this help message.
-	-p, --printf STR (= %s\n)
-	    Format string when printing. See printf(1).
-	-s, --source FILE (= /dev/urandom)
-	    Source file for random bytes. See cat(1).
 ```
 
 ----
