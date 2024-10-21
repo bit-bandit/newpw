@@ -5,6 +5,7 @@ A POSIX shell script that generates passwords. Here's the help text:
 ```
 ./newpw.sh [OPTS..]
 Generates a random password.
+Reads non-terminal non-empty data from standard input as randomness when provided.
 
 Options:
 	-c, --length NUM (= 16)

@@ -8,6 +8,7 @@ help() {
     cat <<EOF
 $0 [OPTS..]
 Generates a random password.
+Reads non-terminal non-empty data from standard input as randomness when provided.
 
 Options:
 	-c, --length NUM (= $length)
