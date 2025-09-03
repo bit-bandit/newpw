@@ -15,7 +15,7 @@ Options:
 	    Length of output password. Must be positive, and include only digits. See head(1).
 	-f, --format STR (= $match)
 	    Character class of allowed characters in the password. See tr(1).
-    	-h, --help
+	-h, --help
 	    Output this help message.
 EOF
 }
